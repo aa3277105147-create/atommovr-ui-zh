@@ -44,7 +44,7 @@ DEFAULT_CONFIG = {
     "n": 10,
     "target_size": 4,
     "loading_prob": 0.6,
-    "seed": 42,
+    "seed": 1,
     "algorithm": "parallel",
     "pattern": "center",
     "speed": 0.1,

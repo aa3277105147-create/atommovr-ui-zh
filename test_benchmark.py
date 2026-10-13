@@ -83,7 +83,7 @@ class BenchmarkTests(unittest.TestCase):
         self.assertTrue(all(c['initial_matrix'] == configs[0]['initial_matrix'] for c in configs[:6]))
         self.assertTrue(all(c['initial_matrix'] == configs[6]['initial_matrix'] for c in configs[6:]))
         self.assertNotEqual(configs[0]['initial_matrix'], configs[6]['initial_matrix'])
-        self.assertEqual([r['seed'] for r in result['records']], [42]*6+[43]*6)
+        self.assertEqual([r['seed'] for r in result['records']], [1]*6+[2]*6)
 
 
 if __name__ == '__main__':

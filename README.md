@@ -1,10 +1,12 @@
 # atommovr 中文原子重排实验台
 
-[![Version](https://img.shields.io/badge/version-1.0.0-0072BD)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.0-0072BD)](CHANGELOG.md)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-面向教学、演示和算法初步比较的本地交互网页。它调用官方 `atommovr` 仿真库，以中文参数面板、白底 Canvas 动画和 MATLAB 风格界面展示单物种光镊阵列的原子重排过程。
+面向教学、演示和算法初步比较的本地交互网页。它调用官方 `atommovr` 仿真库，展示单物种光镊阵列的原子重排过程。
+
+[English edition / 英文版](https://github.com/aa3277105147-create/atommovr-ui-en) 在独立仓库维护。
 
 ![多光镊搬运演示](多光镊演示预览.jpg)
 
@@ -17,23 +19,48 @@
 - 播放、暂停、重播、单步、进度拖动和 0.25×—4× 动画速度。
 - 同一初态的算法对照、多种子统计、结果 JSON 和逐次 CSV 导出。
 
-## macOS 快速启动
+## 快速启动
 
-1. 安装 [Git](https://git-scm.com/)；若电脑上没有现成的 atommovr 环境，还需安装 Python 3.11 或更高版本。
-2. 下载或克隆本仓库。
-3. 双击 `启动交互界面.command`。
+所有系统均需安装 [Git](https://git-scm.com/) 和 Python 3.11 或更高版本，然后下载或克隆本仓库。
 
-首次启动会准备依赖，所需时间取决于网络和电脑配置。脚本按以下顺序寻找 atommovr：
+### Windows
+
+双击 `start.bat`，或在命令提示符中运行：
+
+```bat
+start.bat
+```
+
+### Linux
+
+在仓库目录运行：
+
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+### macOS
+
+双击 `启动交互界面.command`，也可以运行：
+
+```bash
+./start.sh
+```
+
+首次启动会准备依赖，所需时间取决于网络和电脑配置。各平台脚本按以下顺序寻找 atommovr：
 
 1. 环境变量 `ATOMMOVR_SOURCE` 指向的完整源码目录；
 2. `~/Downloads/atommovr-main`；
 3. 自动下载到本仓库 `.deps/atommovr`。
 
-浏览器会打开本机地址，通常为 <http://127.0.0.1:7860>。终端窗口保持打开即表示服务正在运行，按 `Control-C` 可停止。
+如需指定解释器，可将环境变量 `ATOMMOVR_PYTHON` 设为 Python 3.11+ 的可执行文件路径。
+
+浏览器会打开本机地址，通常为 <http://127.0.0.1:7860>。终端窗口保持打开即表示服务正在运行；在终端中按 `Control-C` 可停止。
 
 ## 手动安装
 
-官方源码必须保留完整目录，Parallel LBAP 会使用顶层 `PPSU2023` 组件。本版本固定到 atommovr 提交 `cca2553985bb9d81b19cae9b83074df4816502f9`。
+官方源码必须保留完整目录，Parallel LBAP 会使用顶层 `PPSU2023` 组件。托管下载与参考版本固定到 atommovr 提交 `cca2553985bb9d81b19cae9b83074df4816502f9`；通过 `ATOMMOVR_SOURCE` 指定或在 Downloads 中自动发现的现有源码可能使用不同提交，复现实验时应另行记录。
 
 ```bash
 git clone https://github.com/bernienlab/atommovr.git
@@ -74,15 +101,18 @@ Parallel LBAP 第一次运行时可能需要本机 C 编译器来构建平台对
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s . -p 'test_*.py' -v
 node --check player.js
 zsh -n 启动交互界面.command
+bash -n start.sh
 ```
 
 ## 模型边界
 
 避碰检查基于格点、同步直线路径和点状光阱模型，不等同于真实设备的完整波形、有限光斑、拍频、功率与加热仿真。算法对照和少量种子统计用于演示和复核具体场景，不应直接解释为算法的普遍性能排名。
 
-## 上游项目与引用
+## 创作范围、上游项目与引用
 
-本仓库是独立界面和适配层，不属于 atommovr 官方项目，也不复制其源码。核心仿真来自 [bernienlab/atommovr](https://github.com/bernienlab/atommovr)，其作者为 Nikhil K. Harle、Bo-Yu Chen、Bob Bao 和 Hannes Bernien，采用 MIT License。
+本项目实现的新增部分包括参数界面、Canvas 播放器、仿真数据适配、数量受限的保守调度、算法对照与统计、导出和跨平台启动工具。可以将这些部分表述为“基于 atommovr 开发的交互界面与适配层”；不应据此主张上游算法、物理模型或标准匹配与轨迹检查方法的原创性。
+
+六种重排算法、原子阵列模型、误差模型和核心物理计时来自 [bernienlab/atommovr](https://github.com/bernienlab/atommovr)，不能声明为本项目原创。本仓库不属于 atommovr 官方项目，也不捆绑其源码；启动程序会下载或读取独立副本。atommovr 作者为 Nikhil K. Harle、Bo-Yu Chen、Bob Bao 和 Hannes Bernien，采用 MIT License。
 
 如本演示或其核心仿真对研究有帮助，请引用：
 

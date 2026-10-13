@@ -49,7 +49,7 @@ class SimulatorTests(unittest.TestCase):
         self.assertEqual(initial["summary"]["initial_count"], executed["summary"]["initial_count"])
         self.assertEqual(initial["summary"]["filled"], sum(
             cell * initial["target"][r][c] for r, row in enumerate(initial["initial"]) for c, cell in enumerate(row)))
-        loading_seed, _ = np.random.SeedSequence(42).spawn(2)
+        loading_seed, _ = np.random.SeedSequence(1).spawn(2)
         expected = simulator.random_loading([10, 10], .6, rng=np.random.default_rng(loading_seed))
         self.assertEqual(initial["initial"], expected.tolist())
         json.dumps(initial, allow_nan=False)

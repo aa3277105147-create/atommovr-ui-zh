@@ -294,7 +294,7 @@ def build_app():
                 n = gr.Slider(4, 24, value=10, step=1, label="阵列边长", info="N × N 个光镊位置")
                 target_size = gr.Slider(1, 10, value=4, step=1, label="中心目标边长", info="仅中心方阵使用此参数")
                 loading_prob = gr.Slider(0, 1, value=.6, step=.01, label="原子装载概率")
-                seed = gr.Number(value=42, precision=0, minimum=0, maximum=2**32-1, label="随机种子", info="相同参数与种子可复现相同结果")
+                seed = gr.Number(value=DEFAULT_CONFIG["seed"], precision=0, minimum=0, maximum=2**32-1, label="随机种子", info="相同参数与种子可复现相同结果")
                 initial_mode = gr.Dropdown([("随机装载（实验初态）", "random"), ("手动布置（指定初态）", "manual")],
                                            value="random", label="初始原子分布", filterable=False)
                 gr.Markdown("参数变化后右图实时预览。手动模式下，点击网格位置添加或移除原子；改变阵列尺寸时保留仍在范围内的位置。", elem_id="initial-note")
@@ -349,7 +349,12 @@ def build_app():
         with gr.Accordion("算法原理与参考文献", open=False, elem_id="reference-panel"):
             reference = HERE / "算法说明.md"
             gr.Markdown(reference.read_text() if reference.exists() else "算法说明正在整理。", elem_id="algorithm-reference")
-        gr.Markdown("单物种演示 · 目标外的多余原子保留 · 误差模式执行一次原计划并显示实际结果", elem_id="page-note")
+        gr.Markdown(
+            "单物种演示 · 核心算法与仿真模型来自 "
+            "[atommovr](https://github.com/bernienlab/atommovr) · "
+            "目标外原子保留 · 误差模式执行一次原计划",
+            elem_id="page-note",
+        )
 
         controls = [n, target_size, loading_prob, seed, algorithm, pattern, speed,
                     spacing_um, noise, lifetime, pickup_success, putdown_success, initial_mode, tweezer_count,
