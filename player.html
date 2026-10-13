@@ -1,0 +1,30 @@
+<section class="am-player" aria-label="原子重排交互播放器" data-frame-index="0" data-playing="false" data-speed="1" data-simulated-time="0">
+  <div class="am-player-heading">
+    <h2>原子阵列与重排轨迹</h2>
+    <div class="am-player-toolbar"><span class="am-mode">等待仿真</span><button type="button" class="am-export" title="保存本次仿真参数、逐批轨迹与最终统计" disabled>导出结果 JSON</button><span class="am-export-status" role="status"></span></div>
+  </div>
+  <div class="am-stats">
+    <div class="am-stat"><span>初始原子</span><strong data-stat="initial">—</strong></div>
+    <div class="am-stat"><span>当前剩余</span><strong data-stat="remaining">—</strong></div>
+    <div class="am-stat"><span>目标填充</span><strong data-stat="filled">—</strong><small data-stat="fill-percent">—</small></div>
+    <div class="am-stat"><span>已播放批次</span><strong data-stat="batches">—</strong></div>
+    <div class="am-stat"><span>模拟物理时间</span><strong data-stat="time">—</strong></div>
+    <div class="am-stat"><span>累计损失</span><strong data-stat="losses">—</strong></div>
+  </div>
+  <div class="am-stage" tabindex="0" aria-label="动画区域，空格播放或暂停，左右方向键单步">
+    <div class="am-stage-heading"><span class="am-stage-phase">初始装载</span><span class="am-stage-coordinates">行 × 列</span></div>
+    <div class="am-canvas-wrap"><canvas class="am-canvas" role="img" aria-label="原子阵列"></canvas></div>
+    <div class="am-legend"><span><i class="am-dot am-atom"></i>静止原子</span><span><i class="am-dot am-moving"></i>搬运中原子</span><span><i class="am-dot am-tweezer"></i>光镊 T编号</span><span><i class="am-dot am-target"></i>目标位置</span><span><i class="am-dot am-empty"></i>空位</span><span><i class="am-dot am-pickup"></i>拾取失败</span><span><i class="am-dot am-loss"></i>搬运损失</span><span><i class="am-dot am-vacuum"></i>真空损耗</span></div>
+    <div class="am-tweezer-strip" aria-label="移动光镊与调度信息"><span>可用移动光镊 <strong data-tweezer-stat="available">4</strong></span><span>本批使用 <strong data-tweezer-stat="active">0</strong></span><span>本次峰值 <strong data-tweezer-stat="peak">—</strong></span><span class="am-plan-check-stat" hidden>计划已检查 <strong data-tweezer-stat="checks">0</strong> 批</span><span class="am-batch-check" hidden>本批已检查</span></div>
+    <p class="am-collision-note">T编号仅在本批有效，虚线圈表示未载原子。避碰按 AOD 格点与同步直线路径模型检查；不包含有限光斑及真实硬件效应。</p>
+    <p class="am-edit-note" hidden>点击网格点添加或移除原子，再点击“运行仿真”。</p>
+  </div>
+  <div class="am-timeline"><label for="am-progress">演示进度 <span class="am-progress-label">0 / 0 批</span></label><input class="am-progress" id="am-progress" type="range" min="0" max="0" step="1" value="0" aria-label="演示进度" disabled></div>
+  <div class="am-controls">
+    <div class="am-buttons"><button type="button" class="am-play am-button-primary" disabled>▶ 播放</button><button type="button" class="am-replay" disabled>↻ 重播</button><button type="button" class="am-previous" disabled>← 上一步</button><button type="button" class="am-next" disabled>下一步 →</button></div>
+    <label class="am-speed-control"><span>播放速度 <strong class="am-speed-label">1×</strong></span><input class="am-speed" type="range" min="0.25" max="4" step="0.25" value="1" aria-label="播放速度"><small><span>0.25×</span><span>4×</span></small></label>
+  </div>
+  <p class="am-speed-note">1× 时每批约 0.6 秒；倍速仅调整展示节奏。批内位置、物理时间与损耗动画作线性示意，逐批状态以仿真记录为准。</p>
+  <div class="am-result" role="status"><span class="am-result-icon">◌</span><span class="am-result-text">设置参数，点击“运行仿真”开始演示。</span></div>
+  <div class="am-events"><div class="am-events-heading"><strong>本批仿真记录</strong><span class="am-event-batch">初始状态</span></div><p class="am-event-text">播放或单步查看每批原子的移动与损耗。</p><p class="am-loss-note" hidden>中途损失位置未记录，红色符号标示对应命令终点；真空损耗按记录的格点标示。</p></div>
+</section>
