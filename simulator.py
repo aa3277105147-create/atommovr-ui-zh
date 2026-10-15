@@ -97,6 +97,18 @@ MAX_BATCHES = 2000
 MAX_PLANNED_MOVES = 50_000
 
 
+def simulation_start_method() -> str:
+    """Return the configured multiprocessing method for the current host."""
+    method = os.environ.get("ATOMMOVR_PROCESS_START_METHOD", "spawn").strip().lower() or "spawn"
+    if method not in {"spawn", "fork", "forkserver"}:
+        raise ValueError(
+            "ATOMMOVR_PROCESS_START_METHOD 必须是 spawn、fork 或 forkserver。"
+        )
+    if method not in mp.get_all_start_methods():
+        raise ValueError(f"当前系统不支持多进程启动方式 {method}。")
+    return method
+
+
 class RecordingErrorModel(UniformVacuumTweezerError):
     """Preserve library behavior while recording the sites lost to vacuum."""
 
@@ -503,7 +515,7 @@ def _simulation_worker(config: dict[str, Any], connection) -> None:
 
 
 def simulate(config: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Return JSON-safe simulation data, with a bounded macOS-safe worker process."""
+    """Return JSON-safe simulation data through a bounded isolated worker."""
     clean, validation_error = _validate_config(config)
     result = _empty_result(clean)
     if validation_error:
@@ -514,7 +526,7 @@ def simulate(config: dict[str, Any] | None = None) -> dict[str, Any]:
     complete = False
     error_message = None
     try:
-        context = mp.get_context("spawn")
+        context = mp.get_context(simulation_start_method())
         receiver, sender = context.Pipe(duplex=False)
         worker = context.Process(target=_simulation_worker, args=(clean, sender))
         worker.start()

@@ -428,6 +428,16 @@ class SimulatorTests(unittest.TestCase):
         self.assertEqual(result["frames"], [])
         json.dumps(result, allow_nan=False)
 
+    def test_process_start_method_is_configurable_and_validated(self):
+        with patch.dict(simulator.os.environ, {}, clear=True):
+            self.assertEqual(simulator.simulation_start_method(), "spawn")
+        with patch.dict(simulator.os.environ, {"ATOMMOVR_PROCESS_START_METHOD": "fork"}, clear=True), \
+             patch.object(simulator.mp, "get_all_start_methods", return_value=["spawn", "fork"]):
+            self.assertEqual(simulator.simulation_start_method(), "fork")
+        with patch.dict(simulator.os.environ, {"ATOMMOVR_PROCESS_START_METHOD": "invalid"}, clear=True):
+            with self.assertRaisesRegex(ValueError, "spawn"):
+                simulator.simulation_start_method()
+
 
 class SchedulingTests(unittest.TestCase):
     @staticmethod
