@@ -6,6 +6,8 @@
 
 面向教学、演示和算法初步比较的本地交互网页。它调用官方 `atommovr` 仿真库，展示单物种光镊阵列的原子重排过程。
 
+**[打开中文在线版](https://atommovr-ui-zh.onrender.com/)**（直接运行本仓库的原有 Gradio 界面）
+
 [English edition / 英文版](https://github.com/aa3277105147-create/atommovr-ui-en) 在独立仓库维护。
 
 公开在线版直接运行本仓库原有的 Gradio 界面，不另建一套网页。Render 与 Hugging Face Space 的部署步骤见[在线部署说明](在线部署说明.md)。
@@ -99,7 +101,7 @@ Parallel LBAP 第一次运行时可能需要本机 C 编译器来构建平台对
 
 ## 验证
 
-发布前已运行 62 项 Python 行为测试，并检查播放器 JavaScript 与启动脚本语法。
+发布前已运行 69 项 Python 行为测试，并检查播放器 JavaScript 与启动脚本语法；线上实例也已实测默认 Parallel Hungarian 与 Parallel LBAP。
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest discover -s . -p 'test_*.py' -v
