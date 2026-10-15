@@ -60,6 +60,11 @@ class AppStateTests(unittest.TestCase):
         with patch.dict(app.os.environ, environment, clear=True):
             self.assertEqual(app.server_settings(), ('127.0.0.1', 7860))
 
+    def test_server_settings_fall_back_from_empty_gradio_port(self):
+        environment = {'GRADIO_SERVER_PORT':'', 'PORT':'10000'}
+        with patch.dict(app.os.environ, environment, clear=True):
+            self.assertEqual(app.server_settings(), ('127.0.0.1', 10000))
+
     def test_server_settings_reject_invalid_port(self):
         with patch.dict(app.os.environ, {'PORT':'0'}, clear=True):
             with self.assertRaisesRegex(ValueError, 'PORT'):

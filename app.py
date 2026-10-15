@@ -456,8 +456,9 @@ def server_settings():
     # Gradio's variable is explicit; PORT is the conventional contract used by
     # services such as Render. Local launches leave both unset and let Gradio
     # choose its normal default port.
-    port_variable = "GRADIO_SERVER_PORT" if "GRADIO_SERVER_PORT" in os.environ else "PORT"
-    raw_port = os.environ.get(port_variable, "").strip()
+    raw_gradio_port = os.environ.get("GRADIO_SERVER_PORT", "").strip()
+    port_variable = "GRADIO_SERVER_PORT" if raw_gradio_port else "PORT"
+    raw_port = raw_gradio_port or os.environ.get("PORT", "").strip()
     if not raw_port:
         return server_name, None
     try:
