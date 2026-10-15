@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="基于 atommovr 的中文原子重排交互演示，可在线调整阵列、目标、算法、光镊和误差参数。"
+    />
+    <meta name="theme-color" content="#f4f6f8" />
+    <title>atommovr 中文原子重排实验台</title>
+    <link rel="stylesheet" href="assets/site.css" />
+    <script src="assets/site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#demo">跳到在线演示</a>
+
+    <header class="site-header">
+      <div class="shell nav-row">
+        <a class="brand" href="#top" aria-label="返回页面顶部">
+          <span class="brand-mark" aria-hidden="true">A</span>
+          <span>
+            <strong>atommovr UI</strong>
+            <small>中文原子重排实验台</small>
+          </span>
+        </a>
+        <nav aria-label="主要导航">
+          <a href="#demo">在线演示</a>
+          <a href="#about">项目说明</a>
+          <a href="https://github.com/aa3277105147-create/atommovr-ui-zh/blob/main/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md">使用说明</a>
+          <a class="nav-repo" href="https://github.com/aa3277105147-create/atommovr-ui-zh">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero shell" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">ATOMIC ARRAY REARRANGEMENT</p>
+          <h1 id="page-title">在浏览器中观察<br />原子阵列重排</h1>
+          <p class="hero-summary">
+            调整初态、目标图案、重排算法、光镊数量和误差参数，运行一次可复现的仿真，并逐批查看搬运轨迹与统计结果。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" data-space-link href="__SPACE_URL__">打开在线演示</a>
+            <a class="button button-secondary" href="https://github.com/aa3277105147-create/atommovr-ui-zh">查看源代码</a>
+          </div>
+          <p class="availability" id="space-status" role="status">
+            <span aria-hidden="true"></span>
+            在线版本无需在本机安装 Python
+          </p>
+        </div>
+
+        <div class="hero-panel" aria-label="项目能力概览">
+          <div class="panel-heading">
+            <span>实验配置</span>
+            <span class="run-id">RUN / 001</span>
+          </div>
+          <dl class="metric-grid">
+            <div><dt>阵列</dt><dd>4—24</dd><small>N × N</small></div>
+            <div><dt>算法</dt><dd>6</dd><small>原生方法</small></div>
+            <div><dt>光镊</dt><dd>1—24</dd><small>数量上限</small></div>
+            <div><dt>播放</dt><dd>0.25—4×</dd><small>演示速度</small></div>
+          </dl>
+          <div class="array-preview" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span class="target"></span><span class="atom"></span><span class="target"></span><span class="atom"></span><span></span>
+            <span class="atom"></span><span class="atom target"></span><span class="atom target"></span><span class="target"></span><span class="atom"></span><span></span>
+            <span></span><span class="target"></span><span class="atom target"></span><span class="atom target"></span><span></span><span class="atom"></span>
+            <span class="atom"></span><span></span><span class="atom"></span><span></span><span class="atom"></span><span></span>
+            <span></span><span class="atom"></span><span></span><span class="atom"></span><span></span><span></span>
+          </div>
+          <div class="legend" aria-hidden="true">
+            <span><i class="legend-atom"></i>原子</span>
+            <span><i class="legend-target"></i>目标位置</span>
+            <span><i class="legend-empty"></i>空位</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" id="demo" aria-labelledby="demo-title">
+        <div class="shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">INTERACTIVE DEMO</p>
+              <h2 id="demo-title">在线实验台</h2>
+            </div>
+            <a class="text-link" data-space-link href="__SPACE_URL__" target="_blank" rel="noopener noreferrer">
+              在新窗口打开 <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="embed-shell">
+            <div class="embed-bar" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <p>atommovr 中文交互演示</p>
+            </div>
+            <div class="space-placeholder" id="space-placeholder">
+              <p><strong>在线演示正在接入</strong></p>
+              <p>部署完成后，这里将直接显示完整交互界面。</p>
+              <a class="button button-secondary" href="https://github.com/aa3277105147-create/atommovr-ui-zh#%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8">先查看本地启动方法</a>
+            </div>
+            <iframe
+              id="space-frame"
+              title="atommovr 中文原子重排在线演示"
+              loading="lazy"
+              allow="clipboard-read; clipboard-write"
+              referrerpolicy="strict-origin-when-cross-origin"
+              hidden
+            ></iframe>
+          </div>
+          <p class="embed-note">在线演示由独立计算服务运行。若嵌入区域加载较慢，可使用“在新窗口打开”。</p>
+        </div>
+      </section>
+
+      <section class="about-section shell" id="about" aria-labelledby="about-title">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">PROJECT SCOPE</p>
+            <h2 id="about-title">从仿真到可观察过程</h2>
+          </div>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <span class="feature-number">01</span>
+            <h3>参数化实验</h3>
+            <p>统一设置阵列、装载、目标、物理参数与误差模型，相同随机种子可复现实验。</p>
+          </article>
+          <article>
+            <span class="feature-number">02</span>
+            <h3>逐批观察</h3>
+            <p>播放、暂停、单步或拖动进度，区分成功搬运、拾放失败与真空损耗。</p>
+          </article>
+          <article>
+            <span class="feature-number">03</span>
+            <h3>算法比较</h3>
+            <p>固定同一初态与物理设置，比较目标填充、批次、距离、时间和并行使用情况。</p>
+          </article>
+        </div>
+
+        <aside class="credit-card" aria-labelledby="credit-title">
+          <div>
+            <p class="eyebrow">UPSTREAM &amp; CITATION</p>
+            <h2 id="credit-title">核心算法与仿真模型来自 atommovr</h2>
+            <p>
+              本站提供独立开发的中文参数界面、播放与数据适配功能。六种重排算法、原子阵列模型、误差模型和核心物理计时来自
+              <a href="https://github.com/bernienlab/atommovr">bernienlab/atommovr</a>；本项目并非其官方发行版。
+            </p>
+          </div>
+          <blockquote>
+            N. K. Harle, B.-Y. Chen, B. Bao, and H. Bernien,
+            “atommovr: An open-source simulation framework for rearrangement in atomic arrays,”
+            <cite>Quantum 10, 2177 (2026).</cite>
+            <a href="https://doi.org/10.22331/q-2026-07-29-2177">DOI</a>
+          </blockquote>
+        </aside>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell footer-row">
+        <p>atommovr UI 中文版 · MIT License</p>
+        <div>
+          <a href="https://github.com/aa3277105147-create/atommovr-ui-zh">仓库</a>
+          <a href="https://github.com/aa3277105147-create/atommovr-ui-zh/blob/main/THIRD_PARTY_NOTICES.md">第三方声明</a>
+          <a href="https://github.com/bernienlab/atommovr">atommovr</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
