@@ -1,0 +1,17 @@
+services:
+  - type: web
+    runtime: docker
+    name: atommovr-ui-zh
+    plan: free
+    region: singapore
+    dockerfilePath: ./deploy/huggingface/Dockerfile
+    dockerContext: .
+    healthCheckPath: /atommovr-health
+    autoDeployTrigger: "off"
+    envVars:
+      - key: GRADIO_SERVER_NAME
+        value: 0.0.0.0
+      - key: ATOMMOVR_UI_STATE_DIR
+        value: /tmp/atommovr-ui
+      - key: ATOMMOVR_QUEUE_MAX_SIZE
+        value: "8"

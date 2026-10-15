@@ -450,11 +450,47 @@ def existing_url():
     return None
 
 
+def server_settings():
+    """Return the bind address requested by the runtime environment."""
+    server_name = os.environ.get("GRADIO_SERVER_NAME", "127.0.0.1").strip() or "127.0.0.1"
+    # Gradio's variable is explicit; PORT is the conventional contract used by
+    # services such as Render. Local launches leave both unset and let Gradio
+    # choose its normal default port.
+    port_variable = "GRADIO_SERVER_PORT" if "GRADIO_SERVER_PORT" in os.environ else "PORT"
+    raw_port = os.environ.get(port_variable, "").strip()
+    if not raw_port:
+        return server_name, None
+    try:
+        server_port = int(raw_port)
+    except ValueError as error:
+        raise ValueError(f"{port_variable} 必须是 1—65535 之间的整数。") from error
+    if not 1 <= server_port <= 65535:
+        raise ValueError(f"{port_variable} 必须是 1—65535 之间的整数。")
+    return server_name, server_port
+
+
+def queue_max_size():
+    """Keep local capacity convenient while bounding public shared instances."""
+    raw_size = os.environ.get("ATOMMOVR_QUEUE_MAX_SIZE", "32").strip()
+    try:
+        size = int(raw_size)
+    except ValueError as error:
+        raise ValueError("ATOMMOVR_QUEUE_MAX_SIZE 必须是 1—256 之间的整数。") from error
+    if not 1 <= size <= 256:
+        raise ValueError("ATOMMOVR_QUEUE_MAX_SIZE 必须是 1—256 之间的整数。")
+    return size
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--no-browser", action="store_true")
     args = parser.parse_args()
-    url = existing_url()
+    try:
+        server_name, server_port = server_settings()
+        max_queue = queue_max_size()
+    except ValueError as error:
+        parser.error(str(error))
+    url = existing_url() if server_name in {"127.0.0.1", "localhost"} else None
     if url:
         print("演示界面已运行：" + url, flush=True)
         if not args.no_browser:
@@ -462,9 +498,9 @@ def main():
         return
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     os.environ.setdefault("GRADIO_TEMP_DIR", str(STATE_DIR / "cache"))
-    demo = build_app().queue(default_concurrency_limit=1, max_size=32)
+    demo = build_app().queue(default_concurrency_limit=1, max_size=max_queue)
     theme = gr.themes.Base(primary_hue="blue", secondary_hue="gray", neutral_hue="gray", radius_size="sm", text_size="sm", spacing_size="sm")
-    server, url, _ = demo.launch(server_name="127.0.0.1", share=False,
+    server, url, _ = demo.launch(server_name=server_name, server_port=server_port, share=False,
                                inbrowser=False, prevent_thread_lock=True,
                                theme=theme, css=CSS, footer_links=[], show_error=False,
                                ssr_mode=False)

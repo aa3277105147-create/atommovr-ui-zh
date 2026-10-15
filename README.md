@@ -8,6 +8,10 @@
 
 [English edition / 英文版](https://github.com/aa3277105147-create/atommovr-ui-en) 在独立仓库维护。
 
+公开在线版直接运行本仓库原有的 Gradio 界面，不另建一套网页。Render 与 Hugging Face Space 的部署步骤见[在线部署说明](在线部署说明.md)。
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/aa3277105147-create/atommovr-ui-zh)
+
 ![多光镊搬运演示](多光镊演示预览.jpg)
 
 ## 主要功能

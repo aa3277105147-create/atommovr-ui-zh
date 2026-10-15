@@ -47,4 +47,28 @@ class AppStateTests(unittest.TestCase):
         self.assertEqual(result['config']['pickup_time_us'], 10)
         self.assertEqual(layout['matrix'], matrix)
 
+    def test_server_settings_keep_local_defaults(self):
+        with patch.dict(app.os.environ, {}, clear=True):
+            self.assertEqual(app.server_settings(), ('127.0.0.1', None))
+
+    def test_server_settings_use_render_port(self):
+        with patch.dict(app.os.environ, {'GRADIO_SERVER_NAME':'0.0.0.0', 'PORT':'10000'}, clear=True):
+            self.assertEqual(app.server_settings(), ('0.0.0.0', 10000))
+
+    def test_server_settings_prefer_explicit_gradio_port(self):
+        environment = {'GRADIO_SERVER_PORT':'7860', 'PORT':'10000'}
+        with patch.dict(app.os.environ, environment, clear=True):
+            self.assertEqual(app.server_settings(), ('127.0.0.1', 7860))
+
+    def test_server_settings_reject_invalid_port(self):
+        with patch.dict(app.os.environ, {'PORT':'0'}, clear=True):
+            with self.assertRaisesRegex(ValueError, 'PORT'):
+                app.server_settings()
+
+    def test_public_queue_limit_and_local_default(self):
+        with patch.dict(app.os.environ, {}, clear=True):
+            self.assertEqual(app.queue_max_size(), 32)
+        with patch.dict(app.os.environ, {'ATOMMOVR_QUEUE_MAX_SIZE':'8'}, clear=True):
+            self.assertEqual(app.queue_max_size(), 8)
+
 if __name__=='__main__': unittest.main()
